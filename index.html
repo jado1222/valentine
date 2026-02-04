@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pour Elora ❤️</title>
+
+  <style>
+    body{
+      margin:0;
+      min-height:100vh;
+      text-align:center;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #ff758c, #ff7eb3);
+      color:#fff;
+      overflow:hidden;
+      padding: 24px 16px 60px;
+      box-sizing: border-box;
+    }
+    h1{ font-size: 40px; margin: 20px 0 10px; }
+    p{ font-size: 18px; margin: 8px 0; }
+
+    .gallery{
+      margin: 18px auto 10px;
+      display:flex;
+      gap:12px;
+      justify-content:center;
+      flex-wrap: wrap;
+    }
+    .gallery img{
+      width: 320px;
+      max-width: 85vw;
+      border-radius: 18px;
+      box-shadow: 0 10px 25px rgba(0,0,0,.35);
+    }
+
+    .btns{
+      margin-top: 18px;
+      position: relative;
+      height: 160px; /* space for the runaway button */
+    }
+
+    button{
+      padding: 14px 28px;
+      font-size: 20px;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      user-select:none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    #yesBtn{
+      background: #fff;
+      color: #ff3e77;
+      font-weight: 700;
+    }
+
+    #noBtn{
+      position: absolute;
+      left: 50%;
+      top: 70px;
+      transform: translateX(-50%);
+      background:#fff;
+      color:#111;
+    }
+
+    /* hearts */
+    .heart{
+      position: fixed;
+      pointer-events:none;
+      animation: float 5s linear infinite;
+      opacity: .95;
+    }
+    @keyframes float{
+      0%{ transform: translateY(110vh); opacity: 1; }
+      100%{ transform: translateY(-10vh); opacity: 0; }
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Elora 💖</h1>
+  <p>Depuis le premier jour où je t’ai rencontrée,</p>
+  <p>tu rends ma vie plus belle.</p>
+
+  <div class="gallery">
+    <img src="photo1.jpeg" alt="Nous 1" />
+    <img src="photo2.jpeg" alt="Nous 2" />
+  </div>
+
+  <h1>Veux-tu être ma Valentine ? 💘</h1>
+
+  <div class="btns" id="playArea">
+    <button id="yesBtn">OUI ❤️</button>
+    <button id="noBtn">NON 😜</button>
+  </div>
+
+  <script>
+    const yesBtn = document.getElementById("yesBtn");
+    const noBtn  = document.getElementById("noBtn");
+    const playArea = document.getElementById("playArea");
+
+    // Put NO button somewhere random (but visible)
+    function placeNoButton() {
+      const areaRect = playArea.getBoundingClientRect();
+      const btnRect = noBtn.getBoundingClientRect();
+
+      const padding = 10;
+      const maxX = areaRect.width - btnRect.width - padding;
+      const maxY = areaRect.height - btnRect.height - padding;
+
+      const x = Math.max(padding, Math.random() * Math.max(1, maxX));
+      const y = Math.max(padding, Math.random() * Math.max(1, maxY));
+
+      // position relative to playArea
+      noBtn.style.left = x + "px";
+      noBtn.style.top  = y + "px";
+      noBtn.style.transform = "none";
+    }
+
+    // Make it "no escape":
+    // - desktop: mouseover / mousemove near it
+    // - mobile: touchstart near it
+    // - even if they try to click, it moves instantly + blocks click
+    function runAway(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      placeNoButton();
+    }
+
+    // Desktop triggers
+    noBtn.addEventListener("mouseover", runAway);
+    noBtn.addEventListener("mousedown", runAway);
+    noBtn.addEventListener("click", runAway);
+
+    // Mobile triggers
+    noBtn.addEventListener("touchstart", runAway, { passive: false });
+
+    // Bonus: if finger/mouse gets close to the button, move it
+    playArea.addEventListener("mousemove", (e) => {
+      const b = noBtn.getBoundingClientRect();
+      const dx = e.clientX - (b.left + b.width/2);
+      const dy = e.clientY - (b.top + b.height/2);
+      const dist = Math.hypot(dx, dy);
+      if (dist < 90) placeNoButton();
+    });
+
+    playArea.addEventListener("touchmove", (e) => {
+      const t = e.touches[0];
+      if (!t) return;
+      const b = noBtn.getBoundingClientRect();
+      const dx = t.clientX - (b.left + b.width/2);
+      const dy = t.clientY - (b.top + b.height/2);
+      const dist = Math.hypot(dx, dy);
+      if (dist < 110) placeNoButton();
+    }, { passive: true });
+
+    // YES click
+    yesBtn.addEventListener("click", () => {
+      document.body.innerHTML = `
+        <h1>Je t’aime Elora ❤️</h1>
+        <p>Tu viens de me rendre l’homme le plus heureux du monde 💍💕</p>
+      `;
+      startHearts();
+    });
+
+    function startHearts(){
+      setInterval(() => {
+        const heart = document.createElement("div");
+        heart.className = "heart";
+        heart.textContent = "❤️";
+        heart.style.left = (Math.random() * 100) + "vw";
+        heart.style.fontSize = (Math.random() * 18 + 18) + "px";
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 5000);
+      }, 220);
+    }
+
+    // initial random position after layout
+    setTimeout(placeNoButton, 200);
+    window.addEventListener("resize", () => setTimeout(placeNoButton, 100));
+  </script>
+</body>
+</html>
