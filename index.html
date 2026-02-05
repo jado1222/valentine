@@ -1,183 +1,158 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Pour Elora ❤️</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pour Elora ❤️</title>
 
-  <style>
-body{
-  margin:0;
-  text-align:center;
-  font-family: Arial, sans-serif;
-  background: linear-gradient(135deg, #ff758c, #ff7eb3);
-  color:#fff;
-  padding: 24px 16px 60px;
+<style>
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: auto;
   overflow-x: hidden;
+  overflow-y: auto;
+  font-family: Arial, sans-serif;
+  text-align: center;
+  background: linear-gradient(135deg, #ff758c, #ff7eb3);
+  color: white;
 }
-    h1{ font-size: 40px; margin: 20px 0 10px; }
-    p{ font-size: 18px; margin: 8px 0; }
 
-    .gallery{
-      margin: 18px auto 10px;
-      display:flex;
-      gap:12px;
-      justify-content:center;
-      flex-wrap: wrap;
-    }
-    .gallery img{
-      width: 320px;
-      max-width: 85vw;
-      border-radius: 18px;
-      box-shadow: 0 10px 25px rgba(0,0,0,.35);
-    }
+h1 {
+  font-size: 40px;
+  margin-top: 40px;
+}
 
-    .btns{
-  margin-top: 18px;
+p {
+  font-size: 18px;
+  margin: 10px 20px;
+}
+
+.gallery {
+  margin: 20px auto;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.gallery img {
+  width: 320px;
+  max-width: 90%;
+  border-radius: 18px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+}
+
+.buttons {
   position: relative;
-  height: 120px;
+  margin-top: 30px;
+  height: 150px;
 }
 
-    button{
-      padding: 14px 28px;
-      font-size: 20px;
-      border: none;
-      border-radius: 12px;
-      cursor: pointer;
-      user-select:none;
-      -webkit-tap-highlight-color: transparent;
-    }
+button {
+  padding: 14px 30px;
+  font-size: 20px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+}
 
-    #yesBtn{
-      background: #fff;
-      color: #ff3e77;
-      font-weight: 700;
-    }
+#yesBtn {
+  background: white;
+  color: #ff3e77;
+  font-weight: bold;
+}
 
-    #noBtn{
-      position: absolute;
-      left: 50%;
-      top: 70px;
-      transform: translateX(-50%);
-      background:#fff;
-      color:#111;
-    }
+#noBtn {
+  position: absolute;
+  background: white;
+  color: black;
+  left: 50%;
+  top: 60px;
+  transform: translateX(-50%);
+}
 
-    /* hearts */
-    .heart{
-      position: fixed;
-      pointer-events:none;
-      animation: float 5s linear infinite;
-      opacity: .95;
-    }
-    @keyframes float{
-      0%{ transform: translateY(110vh); opacity: 1; }
-      100%{ transform: translateY(-10vh); opacity: 0; }
-    }
-  </style>
+/* Floating hearts */
+.heart {
+  position: fixed;
+  animation: float 5s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes float {
+  0% { transform: translateY(100vh); opacity: 1; }
+  100% { transform: translateY(-10vh); opacity: 0; }
+}
+
+</style>
 </head>
 
 <body>
-  <h1>Elora 💖</h1>
-  <p>Depuis le premier jour où je t’ai rencontrée,</p>
-  <p>tu rends ma vie plus belle.</p>
 
-  <div class="gallery">
-    <img src="photo1.jpeg" alt="Nous 1" />
-    <img src="photo2.jpeg" alt="Nous 2" />
-  </div>
+<h1>Elora 💖</h1>
 
-  <h1>Veux-tu être ma Valentine ? 💘</h1>
+<p>Depuis le premier jour où je t’ai rencontrée,</p>
+<p>tu rends ma vie plus belle.</p>
 
-  <div class="btns" id="playArea">
-    <button id="yesBtn">OUI ❤️</button>
-    <button id="noBtn">NON 😜</button>
-  </div>
+<div class="gallery">
+  <img src="photo1.jpeg" alt="Nous 1">
+  <img src="photo2.jpeg" alt="Nous 2">
+</div>
 
-  <script>
-    const yesBtn = document.getElementById("yesBtn");
-    const noBtn  = document.getElementById("noBtn");
-    const playArea = document.getElementById("playArea");
+<h1>Veux-tu être ma Valentine ? 💘</h1>
 
-    // Put NO button somewhere random (but visible)
-    function placeNoButton() {
-      const areaRect = playArea.getBoundingClientRect();
-      const btnRect = noBtn.getBoundingClientRect();
+<div class="buttons">
+  <button id="yesBtn">OUI ❤️</button>
+  <button id="noBtn">NON 😜</button>
+</div>
 
-      const padding = 10;
-      const maxX = areaRect.width - btnRect.width - padding;
-      const maxY = areaRect.height - btnRect.height - padding;
+<script>
 
-      const x = Math.max(padding, Math.random() * Math.max(1, maxX));
-      const y = Math.max(padding, Math.random() * Math.max(1, maxY));
+const noBtn = document.getElementById("noBtn");
+const yesBtn = document.getElementById("yesBtn");
+const container = document.querySelector(".buttons");
 
-      // position relative to playArea
-      noBtn.style.left = x + "px";
-      noBtn.style.top  = y + "px";
-      noBtn.style.transform = "none";
-    }
+function moveNoButton() {
+  const containerRect = container.getBoundingClientRect();
+  const btnRect = noBtn.getBoundingClientRect();
 
-    // Make it "no escape":
-    // - desktop: mouseover / mousemove near it
-    // - mobile: touchstart near it
-    // - even if they try to click, it moves instantly + blocks click
-    function runAway(e) {
-      e.preventDefault();
-      e.stopPropagation();
-      placeNoButton();
-    }
+  const maxX = containerRect.width - btnRect.width;
+  const maxY = containerRect.height - btnRect.height;
 
-    // Desktop triggers
-    noBtn.addEventListener("mouseover", runAway);
-    noBtn.addEventListener("mousedown", runAway);
-    noBtn.addEventListener("click", runAway);
+  const randomX = Math.random() * maxX;
+  const randomY = Math.random() * maxY;
 
-    // Mobile triggers
-    noBtn.addEventListener("touchstart", runAway, { passive: false });
+  noBtn.style.left = randomX + "px";
+  noBtn.style.top = randomY + "px";
+  noBtn.style.transform = "none";
+}
 
-    // Bonus: if finger/mouse gets close to the button, move it
-    playArea.addEventListener("mousemove", (e) => {
-      const b = noBtn.getBoundingClientRect();
-      const dx = e.clientX - (b.left + b.width/2);
-      const dy = e.clientY - (b.top + b.height/2);
-      const dist = Math.hypot(dx, dy);
-      if (dist < 90) placeNoButton();
-    });
+noBtn.addEventListener("mouseover", moveNoButton);
+noBtn.addEventListener("mousedown", moveNoButton);
+noBtn.addEventListener("touchstart", moveNoButton);
 
-    playArea.addEventListener("touchmove", (e) => {
-      const t = e.touches[0];
-      if (!t) return;
-      const b = noBtn.getBoundingClientRect();
-      const dx = t.clientX - (b.left + b.width/2);
-      const dy = t.clientY - (b.top + b.height/2);
-      const dist = Math.hypot(dx, dy);
-      if (dist < 110) placeNoButton();
-    }, { passive: true });
+yesBtn.addEventListener("click", function() {
+  document.body.innerHTML = `
+    <h1>Je t’aime Elora ❤️</h1>
+    <p>Tu viens de me rendre l’homme le plus heureux du monde 💍💕</p>
+  `;
+  startHearts();
+});
 
-    // YES click
-    yesBtn.addEventListener("click", () => {
-      document.body.innerHTML = `
-        <h1>Je t’aime Elora ❤️</h1>
-        <p>Tu viens de me rendre l’homme le plus heureux du monde 💍💕</p>
-      `;
-      startHearts();
-    });
+function startHearts() {
+  setInterval(function() {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerHTML = "❤️";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.fontSize = (Math.random() * 20 + 20) + "px";
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 5000);
+  }, 250);
+}
 
-    function startHearts(){
-      setInterval(() => {
-        const heart = document.createElement("div");
-        heart.className = "heart";
-        heart.textContent = "❤️";
-        heart.style.left = (Math.random() * 100) + "vw";
-        heart.style.fontSize = (Math.random() * 18 + 18) + "px";
-        document.body.appendChild(heart);
-        setTimeout(() => heart.remove(), 5000);
-      }, 220);
-    }
+</script>
 
-    // initial random position after layout
-    setTimeout(placeNoButton, 200);
-    window.addEventListener("resize", () => setTimeout(placeNoButton, 100));
-  </script>
 </body>
 </html>
